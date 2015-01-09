@@ -6,17 +6,17 @@
 This module includes 8 DSC resources that automate provisioning of resources in Microsoft Azure.</p>
 <ul style="list-style-type:disc; direction:ltr">
     <li>
-    <strong>xAzurePackSetup:</strong> for installation and initialization of Azure Pack
+    <strong>:</strong> for installation and initialization of Azure Pack
     </li>
     <li>
-    <strong>xAzureQuickVM</strong> simple resource for creating VMs with limited options
+    <strong></strong> simple resource for creating VMs with limited options
     </li>
-    <li><strong>xAzurePackAdmin: </strong>for adding Azure Pack admins</li>
-    <li><strong>xAzurePackFQDN: </strong>for setting the FQDN of Azure Pack roles</li>
-    <li><strong>xAzurePackDatabaseSetting: </strong>for setting Azure Pack database settings</li>
-    <li><strong>xAzurePackIdentityProvider: </strong>for setting Azure Pack identity provider settings</li>
-    <li><strong>xAzurePackRelyingParty: </strong>for setting Azure Pack relying party settings</li>
-    <li><strong>xAzurePackResourceProvider: </strong>for registering and configuring Azure Pack resource providers</li>
+    <li><strong>: </strong>for adding Azure Pack admins</li>
+    <li><strong>: </strong>for setting the FQDN of Azure Pack roles</li>
+    <li><strong>: </strong>for setting Azure Pack database settings</li>
+    <li><strong>: </strong>for setting Azure Pack identity provider settings</li>
+    <li><strong>: </strong>for setting Azure Pack relying party settings</li>
+    <li><strong>: </strong>for registering and configuring Azure Pack resource providers</li>
 </ul>
 
 <p><strong>All of the resources in the DSC Resource Kit are provided AS IS, and are not supported through any Microsoft standard support program or service. The &quot;&quot;x&quot; in xAzure stands for experimental</strong>, which means that these resources will be
@@ -38,8 +38,8 @@ This module includes 8 DSC resources that automate provisioning of resources in 
 </ul>
 <p>To confirm installation:</p>
 <ul style="list-style-type:disc; direction:ltr">
-<li>Run <strong>Get-DSCResource</strong> to see that <strong>xAzurePackSetup</strong>,
-<strong>xAzurePackDatabaseSetting</strong>, and <strong>xAzurePackResourceProvider</strong> are among the DSC Resources listed
+<li>Run <strong>Get-DSCResource</strong> to see that <strong></strong>,
+<strong></strong>, and <strong></strong> are among the DSC Resources listed
 </li></ul>
 
 <h1 style="color:#2e74b5; font-family:Calibri Light; font-size:large">Requirements</h1>
@@ -50,7 +50,7 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
 
 <h1 style="color:#2e74b5; font-family:Calibri Light; font-size:large">Details</h1>
 
-    <p><strong>xAzurePackSetup</strong> resource has following properties:</p>
+    <p><strong></strong> resource has following properties:</p>
     <ul style="list-style-type:disc; direction:ltr">
         <li>
             <strong>Role: </strong>KEY - The Azure Pack role to be installed or initialized.  Valid roles are "Admin API","Tenant API","Tenant Public API","SQL Server Extension","MySQL Extension","Admin Site","Admin Authentication Site","Tenant Site","Tenant Authentication Site".
@@ -83,7 +83,7 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
             <strong>EnableCeip: </strong>Enable Customer Experience Improvement Program.
         </li>
     </ul>
-    <p><strong>xAzurePackUpdate</strong> resource has following properties:</p>
+    <p><strong></strong> resource has following properties:</p>
     <ul style="list-style-type:disc; direction:ltr">
         <li>
         <strong>Role: </strong>KEY - The Azure Pack role to be updated.  Valid roles are "Admin API","Tenant API","Tenant Public API","SQL Server Extension","MySQL Extension","Admin Site","Admin Authentication Site","Tenant Site","Tenant Authentication Site".
@@ -98,7 +98,7 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
             <strong>SetupCredential: </strong>REQUIRED - Credential to be used to perform the installation.
         </li>
     </ul>
-    <p><strong>xAzurePackAdmin</strong> resource has following properties:</p>
+    <p><strong></strong> resource has following properties:</p>
     <ul style="list-style-type:disc; direction:ltr">
         <li>
         <strong>Ensure: </strong>An enumerated value that describes if the principal is an Azure Pack admin.
@@ -116,7 +116,7 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
             <strong>SQLInstance: </strong>Database instance for the Azure Pack databases.
         </li>
     </ul>
-    <p><strong>xAzurePackFQDN</strong> resource has following properties:</p>
+    <p><strong></strong> resource has following properties:</p>
     <ul style="list-style-type:disc; direction:ltr">
         <li>
         <strong>Namespace: </strong>KEY - Specifies a namespace - "AdminSite", "AuthSite", "TenantSite", or "WindowsAuthSite".
@@ -138,7 +138,7 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
         </li>
     </ul>
    
-    <p><strong>xAzurePackDatabaseSetting</strong> resource has following properties:</p>
+    <p><strong></strong> resource has following properties:</p>
     <ul style="list-style-type:disc; direction:ltr">
         <li>
         <strong>Namespace: </strong>KEY - Specifies a namespace - "AdminSite" or "TenantSite"
@@ -159,7 +159,7 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
         <strong>SQLInstance: </strong>Database instance for the Azure Pack databases.
         </li>
     </ul>
-    <p><strong>xAzurePackIdentityProvider</strong> resource has following properties:</p>
+    <p><strong></strong> resource has following properties:</p>
     <ul style="list-style-type:disc; direction:ltr">
         <li>
         <strong>Target: </strong>KEY - Specifies the target site - "Membership" or "Windows".
@@ -180,7 +180,7 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
         <strong>SQLInstance: </strong>Database instance for the Azure Pack databases.
         </li>
     </ul>
-    <p><strong>xAzurePackRelyingParty</strong> resource has following properties:</p>
+    <p><strong></strong> resource has following properties:</p>
     <ul style="list-style-type:disc; direction:ltr">
         <li>
         <strong>Target: </strong>KEY - Specifies the target site - "Admin" or "Tenant".
@@ -201,7 +201,7 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
         <strong>SQLInstance: </strong>Database instance for the Azure Pack databases.
         </li>
     </ul>
-    <p><strong>xAzurePackResourceProvider</strong> resource has following properties:</p>
+    <p><strong></strong> resource has following properties:</p>
     <ul style="list-style-type:disc; direction:ltr">
         <li>
         <strong>AuthenticationSite: </strong>REQUIRED - URL of the authentication site.
@@ -320,11 +320,11 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
 <li>Update the following names by replacing MSFT with your company/community name and replacing the
 <strong>&quot;x&quot;</strong> with <strong>&quot;c&quot;</strong> (short for &quot;Community&quot;) or another prefix of your choice:
 <ul>
-<li><strong>Module name (ex: xAzurePack</strong> becomes <strong>cAzurePack</strong>) </li><li><strong>Resource folder (ex: MSFT_xAzureQuickVM</strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
-</li><li><strong>Resource file name (ex: MSFT_xAzureQuickVM</strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
-</li><li><strong>Resource Friendly Name (ex: xAzureQuickVM</strong> becomes <strong>cAzureQuickVM</strong>)
-</li><li><strong>MOF class name (ex: MSFT_xAzureQuickVM</strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
-</li><li><strong>Filename for the &lt;resource&gt;.schema.mof (ex: MSFT_xAzureQuickVM</strong>.schema.mof becomes
+<li><strong>Module name (ex: xAzurePack</strong> becomes <strong>cAzurePack</strong>) </li><li><strong>Resource folder (ex: </strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
+</li><li><strong>Resource file name (ex: </strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
+</li><li><strong>Resource Friendly Name (ex: </strong> becomes <strong>cAzureQuickVM</strong>)
+</li><li><strong>MOF class name (ex: </strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
+</li><li><strong>Filename for the &lt;resource&gt;.schema.mof (ex: </strong>.schema.mof becomes
 <strong>Contoso_cAzureQuickVM</strong>.schema.mof) </li></ul>
 </li><li>Update module and metadata information in the module manifest </li><li>Update any configuration that use these resources </li></ol>
 <p><em>We reserve resource and module names without prefixes (&quot;x&quot; or &quot;c&quot;) for future use (e.g. &quot;MSFT_**RealResourceName**&quot; or &quot;**RealResourceName**&quot;). If the next version of Windows Server ships with a &quot;**RealResourceName**&quot; resource, we don't want to break
@@ -335,17 +335,17 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
 Initial release with the following resources
 <ul style="list-style-type:disc; direction:ltr">
     <li>
-    <strong>xAzurePackSetup</strong>
+    <strong></strong>
     </li>
     <li>
-    <strong>xAzureQuickVM</strong>
+    <strong></strong>
     </li>
-    <li><strong>xAzurePackAdmin</strong></li>
-    <li><strong>xAzurePackFQDN</strong></li>
-    <li><strong>xAzurePackDatabaseSetting</strong></li>
-    <li><strong>xAzurePackIdentityProvider</strong></li>
-    <li><strong>xAzurePackRelyingParty</strong></li>
-    <li><strong>xAzurePackResourceProvider</strong></li>
+    <li><strong></strong></li>
+    <li><strong></strong></li>
+    <li><strong></strong></li>
+    <li><strong></strong></li>
+    <li><strong></strong></li>
+    <li><strong></strong></li>
 </ul>
 
 

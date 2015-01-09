@@ -1,4 +1,4 @@
-﻿#requires -Version 5
+#requires -Version 5
 
 Configuration AzurePack
 {
@@ -404,7 +404,7 @@ Configuration AzurePack
             ($WindowsAzurePack2013AdminAPIServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {
-            xAzurePackSetup "AdminAPIInstall"
+             "AdminAPIInstall"
             {
                 Role = "Admin API"
                 Action = "Install"
@@ -439,10 +439,10 @@ Configuration AzurePack
                 $DependsOn += @(
                     "[xCredSSP]Client",
                     "[xCredSSP]Server",
-                    "[xAzurePackSetup]AdminAPIInstall"
+                    "[]AdminAPIInstall"
                 )
 
-                xAzurePackSetup "AdminAPIInitialize"
+                 "AdminAPIInitialize"
                 {
                     DependsOn = $DependsOn
                     Role = "Admin API"
@@ -464,9 +464,9 @@ Configuration AzurePack
                         $AzurePackAdminAPIPort = 30004
                     }
 
-                    xAzurePackDatabaseSetting "AntaresGeoMasterUri"
+                     "AntaresGeoMasterUri"
                     {
-                        DependsOn = "[xAzurePackSetup]AdminAPIInitialize"
+                        DependsOn = "[]AdminAPIInitialize"
                         Namespace = "AdminSite"
                         Name = "Microsoft.Azure.Portal.Configuration.AppManagementConfiguration.AntaresGeoMasterUri"
                         Value = ("https://" + $Node.AzurePackAdminAPIFQDN + ":" + $AzurePackAdminAPIPort + "/services/webspaces/")
@@ -475,9 +475,9 @@ Configuration AzurePack
                         SQLInstance = $WindowsAzurePack2013DatabaseInstance
                     }
 
-                    xAzurePackDatabaseSetting "RdfeAdminManagementServiceUri"
+                     "RdfeAdminManagementServiceUri"
                     {
-                        DependsOn = "[xAzurePackSetup]AdminAPIInitialize"
+                        DependsOn = "[]AdminAPIInitialize"
                         Namespace = "AdminSite"
                         Name = "Microsoft.Azure.Portal.Configuration.AppManagementConfiguration.RdfeAdminManagementServiceUri"
                         Value = ("https://" + $Node.AzurePackAdminAPIFQDN + ":" + $AzurePackAdminAPIPort + "/")
@@ -486,9 +486,9 @@ Configuration AzurePack
                         SQLInstance = $WindowsAzurePack2013DatabaseInstance
                     }
 
-                    xAzurePackDatabaseSetting "RdfeAdminUri"
+                     "RdfeAdminUri"
                     {
-                        DependsOn = "[xAzurePackSetup]AdminAPIInitialize"
+                        DependsOn = "[]AdminAPIInitialize"
                         Namespace = "AdminSite"
                         Name = "Microsoft.Azure.Portal.Configuration.OnPremPortalConfiguration.RdfeAdminUri"
                         Value = ("https://" + $Node.AzurePackAdminAPIFQDN + ":" + $AzurePackAdminAPIPort + "/")
@@ -497,9 +497,9 @@ Configuration AzurePack
                         SQLInstance = $WindowsAzurePack2013DatabaseInstance
                     }
 
-                    xAzurePackDatabaseSetting "RdfeProvisioningUri"
+                     "RdfeProvisioningUri"
                     {
-                        DependsOn = "[xAzurePackSetup]AdminAPIInitialize"
+                        DependsOn = "[]AdminAPIInitialize"
                         Namespace = "AdminSite"
                         Name = "Microsoft.Azure.Portal.Configuration.OnPremPortalConfiguration.RdfeProvisioningUri"
                         Value = ("https://" + $Node.AzurePackAdminAPIFQDN + ":" + $AzurePackAdminAPIPort + "/")
@@ -514,18 +514,18 @@ Configuration AzurePack
                 WaitForAll "AdminAPIInitialize"
                 {
                     NodeName = $WindowsAzurePack2013AdminAPIServers[0]
-                    ResourceName = "[xAzurePackSetup]AdminAPIInitialize"
+                    ResourceName = "[]AdminAPIInitialize"
                     Credential = $Node.InstallerServiceAccount
                     RetryCount = 720
                     RetryIntervalSec = 5
                 }
 
-                xAzurePackSetup "AdminAPIInitialize"
+                 "AdminAPIInitialize"
                 {
                     DependsOn = @(
                         "[xCredSSP]Client",
                         "[xCredSSP]Server",
-                        "[xAzurePackSetup]AdminAPIInstall",
+                        "[]AdminAPIInstall",
                         "[WaitForAll]AdminAPIInitialize"
                     )
                     Role = "Admin API"
@@ -543,7 +543,7 @@ Configuration AzurePack
             ($WindowsAzurePack2013TenantAPIServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {
-            xAzurePackSetup "TenantAPIInstall"
+             "TenantAPIInstall"
             {
                 Role = "Tenant API"
                 Action = "Install"
@@ -560,14 +560,14 @@ Configuration AzurePack
                 # Wait for Admin API
                 if ($WindowsAzurePack2013TenantAPIServers[0] -eq $WindowsAzurePack2013AdminAPIServers[0])
                 {
-                    $DependsOn = @("[xAzurePackSetup]AdminAPIInitialize")
+                    $DependsOn = @("[]AdminAPIInitialize")
                 }
                 else
                 {
                     WaitForAll "AdminAPI"
                     {
                         NodeName = $WindowsAzurePack2013AdminAPIServers[0]
-                        ResourceName = ("[xAzurePackSetup]AdminAPIInitialize")
+                        ResourceName = ("[]AdminAPIInitialize")
                         Credential = $Node.InstallerServiceAccount
                         RetryCount = 720
                         RetryIntervalSec = 5
@@ -578,10 +578,10 @@ Configuration AzurePack
                 $DependsOn += @(
                     "[xCredSSP]Client",
                     "[xCredSSP]Server",
-                    "[xAzurePackSetup]TenantAPIInstall"
+                    "[]TenantAPIInstall"
                 )
 
-                xAzurePackSetup "TenantAPIInitialize"
+                 "TenantAPIInitialize"
                 {
                     DependsOn = $DependsOn
                     Role = "Tenant API"
@@ -603,9 +603,9 @@ Configuration AzurePack
                         $AzurePackTenantAPIPort = 30005
                     }
 
-                    xAzurePackDatabaseSetting "AdminSite-RdfeUnifiedManagementServiceUri"
+                     "AdminSite-RdfeUnifiedManagementServiceUri"
                     {
-                        DependsOn = "[xAzurePackSetup]TenantAPIInitialize"
+                        DependsOn = "[]TenantAPIInitialize"
                         Namespace = "AdminSite"
                         Name = "Microsoft.Azure.Portal.Configuration.AppManagementConfiguration.RdfeUnifiedManagementServiceUri"
                         Value = ("https://" + $Node.AzurePackTenantAPIFQDN + ":" + $AzurePackTenantAPIPort + "/")
@@ -614,9 +614,9 @@ Configuration AzurePack
                         SQLInstance = $WindowsAzurePack2013DatabaseInstance
                     }
 
-                    xAzurePackDatabaseSetting "TenantSite-RdfeUnifiedManagementServiceUri"
+                     "TenantSite-RdfeUnifiedManagementServiceUri"
                     {
-                        DependsOn = "[xAzurePackSetup]TenantAPIInitialize"
+                        DependsOn = "[]TenantAPIInitialize"
                         Namespace = "TenantSite"
                         Name = "Microsoft.Azure.Portal.Configuration.AppManagementConfiguration.RdfeUnifiedManagementServiceUri"
                         Value = ("https://" + $Node.AzurePackTenantAPIFQDN + ":" + $AzurePackTenantAPIPort + "/")
@@ -631,18 +631,18 @@ Configuration AzurePack
                 WaitForAll "TenantAPIInitialize"
                 {
                     NodeName = $WindowsAzurePack2013TenantAPIServers[0]
-                    ResourceName = "[xAzurePackSetup]TenantAPIInitialize"
+                    ResourceName = "[]TenantAPIInitialize"
                     Credential = $Node.InstallerServiceAccount
                     RetryCount = 720
                     RetryIntervalSec = 5
                 }
 
-                xAzurePackSetup "TenantAPIInitialize"
+                 "TenantAPIInitialize"
                 {
                     DependsOn = @(
                         "[xCredSSP]Client",
                         "[xCredSSP]Server",
-                        "[xAzurePackSetup]TenantAPIInstall",
+                        "[]TenantAPIInstall",
                         "[WaitForAll]TenantAPIInitialize"
                     )
                     Role = "Tenant API"
@@ -660,7 +660,7 @@ Configuration AzurePack
             ($WindowsAzurePack2013TenantPublicAPIServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {
-            xAzurePackSetup "TenantPublicAPIInstall"
+             "TenantPublicAPIInstall"
             {
                 Role = "Tenant Public API"
                 Action = "Install"
@@ -677,14 +677,14 @@ Configuration AzurePack
                 # Wait for Tenant API
                 if ($WindowsAzurePack2013TenantPublicAPIServers[0] -eq $WindowsAzurePack2013TenantAPIServers[0])
                 {
-                    $DependsOn = @("[xAzurePackSetup]TenantAPIInitialize")
+                    $DependsOn = @("[]TenantAPIInitialize")
                 }
                 else
                 {
                     WaitForAll "TenantAPI"
                     {
                         NodeName = $WindowsAzurePack2013TenantAPIServers[0]
-                        ResourceName = ("[xAzurePackSetup]TenantAPIInitialize")
+                        ResourceName = ("[]TenantAPIInitialize")
                         Credential = $Node.InstallerServiceAccount
                         RetryCount = 720
                         RetryIntervalSec = 5
@@ -695,10 +695,10 @@ Configuration AzurePack
                 $DependsOn += @(
                     "[xCredSSP]Client",
                     "[xCredSSP]Server",
-                    "[xAzurePackSetup]TenantPublicAPIInstall"
+                    "[]TenantPublicAPIInstall"
                 )
 
-                xAzurePackSetup "TenantPublicAPIInitialize"
+                 "TenantPublicAPIInitialize"
                 {
                     DependsOn = $DependsOn
                     Role = "Tenant Public API"
@@ -720,9 +720,9 @@ Configuration AzurePack
                         $AzurePackTenantPublicAPIPort = 30006
                     }
 
-                    xAzurePackDatabaseSetting "PublicRdfeProvisioningUri"
+                     "PublicRdfeProvisioningUri"
                     {
-                        DependsOn = "[xAzurePackSetup]TenantPublicAPIInitialize"
+                        DependsOn = "[]TenantPublicAPIInitialize"
                         Namespace = "TenantSite"
                         Name = "Microsoft.WindowsAzure.Server.Configuration.TenantPortalConfiguration.PublicRdfeProvisioningUri"
                         Value = ("https://" + $Node.AzurePackTenantPublicAPIFQDN + ":" + $AzurePackTenantPublicAPIPort + "/")
@@ -737,18 +737,18 @@ Configuration AzurePack
                 WaitForAll "TenantPublicAPIInitialize"
                 {
                     NodeName = $WindowsAzurePack2013TenantPublicAPIServers[0]
-                    ResourceName = "[xAzurePackSetup]TenantPublicAPIInitialize"
+                    ResourceName = "[]TenantPublicAPIInitialize"
                     Credential = $Node.InstallerServiceAccount
                     RetryCount = 720
                     RetryIntervalSec = 5
                 }
 
-                xAzurePackSetup "TenantPublicAPIInitialize"
+                 "TenantPublicAPIInitialize"
                 {
                     DependsOn = @(
                         "[xCredSSP]Client",
                         "[xCredSSP]Server",
-                        "[xAzurePackSetup]TenantPublicAPIInstall",
+                        "[]TenantPublicAPIInstall",
                         "[WaitForAll]TenantPublicAPIInitialize"
                     )
                     Role = "Tenant Public API"
@@ -766,7 +766,7 @@ Configuration AzurePack
             ($WindowsAzurePack2013SQLServerExtensionServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {
-            xAzurePackSetup "SQLServerExtensionInstall"
+             "SQLServerExtensionInstall"
             {
                 Role = "SQL Server Extension"
                 Action = "Install"
@@ -783,14 +783,14 @@ Configuration AzurePack
                 # Wait for Admin API
                 if ($WindowsAzurePack2013SQLServerExtensionServers[0] -eq $WindowsAzurePack2013AdminAPIServers[0])
                 {
-                    $DependsOn = @("[xAzurePackSetup]AdminAPIInitialize")
+                    $DependsOn = @("[]AdminAPIInitialize")
                 }
                 else
                 {
                     WaitForAll "AdminAPI"
                     {
                         NodeName = $WindowsAzurePack2013AdminAPIServers[0]
-                        ResourceName = ("[xAzurePackSetup]AdminAPIInitialize")
+                        ResourceName = ("[]AdminAPIInitialize")
                         Credential = $Node.InstallerServiceAccount
                         RetryCount = 720
                         RetryIntervalSec = 5
@@ -801,10 +801,10 @@ Configuration AzurePack
                 $DependsOn += @(
                     "[xCredSSP]Client",
                     "[xCredSSP]Server",
-                    "[xAzurePackSetup]SQLServerExtensionInstall"
+                    "[]SQLServerExtensionInstall"
                 )
 
-                xAzurePackSetup "SQLServerExtensionInitialize"
+                 "SQLServerExtensionInitialize"
                 {
                     DependsOn = $DependsOn
                     Role = "SQL Server Extension"
@@ -820,18 +820,18 @@ Configuration AzurePack
                 WaitForAll "SQLServerExtensionInitialize"
                 {
                     NodeName = $WindowsAzurePack2013SQLServerExtensionServers[0]
-                    ResourceName = "[xAzurePackSetup]SQLServerExtensionInitialize"
+                    ResourceName = "[]SQLServerExtensionInitialize"
                     Credential = $Node.InstallerServiceAccount
                     RetryCount = 720
                     RetryIntervalSec = 5
                 }
 
-                xAzurePackSetup "SQLServerExtensionInitialize"
+                 "SQLServerExtensionInitialize"
                 {
                     DependsOn = @(
                         "[xCredSSP]Client",
                         "[xCredSSP]Server",
-                        "[xAzurePackSetup]SQLServerExtensionInstall",
+                        "[]SQLServerExtensionInstall",
                         "[WaitForAll]SQLServerExtensionInitialize"
                     )
                     Role = "SQL Server Extension"
@@ -849,7 +849,7 @@ Configuration AzurePack
             ($WindowsAzurePack2013MySQLExtensionServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {
-            xAzurePackSetup "MySQLExtensionInstall"
+             "MySQLExtensionInstall"
             {
                 Role = "MySQL Extension"
                 Action = "Install"
@@ -866,14 +866,14 @@ Configuration AzurePack
                 # Wait for Admin API
                 if ($WindowsAzurePack2013MySQLExtensionServers[0] -eq $WindowsAzurePack2013AdminAPIServers[0])
                 {
-                    $DependsOn = @("[xAzurePackSetup]AdminAPIInitialize")
+                    $DependsOn = @("[]AdminAPIInitialize")
                 }
                 else
                 {
                     WaitForAll "AdminAPI"
                     {
                         NodeName = $WindowsAzurePack2013AdminAPIServers[0]
-                        ResourceName = ("[xAzurePackSetup]AdminAPIInitialize")
+                        ResourceName = ("[]AdminAPIInitialize")
                         Credential = $Node.InstallerServiceAccount
                         RetryCount = 720
                         RetryIntervalSec = 5
@@ -884,10 +884,10 @@ Configuration AzurePack
                 $DependsOn += @(
                     "[xCredSSP]Client",
                     "[xCredSSP]Server",
-                    "[xAzurePackSetup]MySQLExtensionInstall"
+                    "[]MySQLExtensionInstall"
                 )
 
-                xAzurePackSetup "MySQLExtensionInitialize"
+                 "MySQLExtensionInitialize"
                 {
                     DependsOn = $DependsOn
                     Role = "MySQL Extension"
@@ -903,18 +903,18 @@ Configuration AzurePack
                 WaitForAll "MySQLExtensionInitialize"
                 {
                     NodeName = $WindowsAzurePack2013MySQLExtensionServers[0]
-                    ResourceName = "[xAzurePackSetup]MySQLExtensionInitialize"
+                    ResourceName = "[]MySQLExtensionInitialize"
                     Credential = $Node.InstallerServiceAccount
                     RetryCount = 720
                     RetryIntervalSec = 5
                 }
 
-                xAzurePackSetup "MySQLExtensionInitialize"
+                 "MySQLExtensionInitialize"
                 {
                     DependsOn = @(
                         "[xCredSSP]Client",
                         "[xCredSSP]Server",
-                        "[xAzurePackSetup]MySQLExtensionInstall",
+                        "[]MySQLExtensionInstall",
                         "[WaitForAll]MySQLExtensionInitialize"
                     )
                     Role = "MySQL Extension"
@@ -932,7 +932,7 @@ Configuration AzurePack
             ($WindowsAzurePack2013AdminSiteServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {
-            xAzurePackSetup "AdminSiteInstall"
+             "AdminSiteInstall"
             {
                 Role = "Admin Site"
                 Action = "Install"
@@ -949,14 +949,14 @@ Configuration AzurePack
                 # Wait for Admin API
                 if ($WindowsAzurePack2013AdminSiteServers[0] -eq $WindowsAzurePack2013AdminAPIServers[0])
                 {
-                    $DependsOn = @("[xAzurePackSetup]AdminAPIInitialize")
+                    $DependsOn = @("[]AdminAPIInitialize")
                 }
                 else
                 {
                     WaitForAll "AdminAPI"
                     {
                         NodeName = $WindowsAzurePack2013AdminAPIServers[0]
-                        ResourceName = ("[xAzurePackSetup]AdminAPIInitialize")
+                        ResourceName = ("[]AdminAPIInitialize")
                         Credential = $Node.InstallerServiceAccount
                         RetryCount = 720
                         RetryIntervalSec = 5
@@ -967,10 +967,10 @@ Configuration AzurePack
                 $DependsOn += @(
                     "[xCredSSP]Client",
                     "[xCredSSP]Server",
-                    "[xAzurePackSetup]AdminSiteInstall"
+                    "[]AdminSiteInstall"
                 )
 
-                xAzurePackSetup "AdminSiteInitialize"
+                 "AdminSiteInitialize"
                 {
                     DependsOn = $DependsOn
                     Role = "Admin Site"
@@ -983,9 +983,9 @@ Configuration AzurePack
 
                 if($Node.AzurePackAdminSiteFQDN)
                 {
-                    xAzurePackFQDN "AdminSite"
+                     "AdminSite"
                     {
-                        DependsOn = "[xAzurePackSetup]AdminSiteInitialize"
+                        DependsOn = "[]AdminSiteInitialize"
                         Namespace = "AdminSite"
                         FullyQualifiedDomainName = $Node.AzurePackAdminSiteFQDN
                         AzurePackAdminCredential = $Node.InstallerServiceAccount
@@ -993,9 +993,9 @@ Configuration AzurePack
                         SQLInstance = $WindowsAzurePack2013DatabaseInstance
                     }
 
-                    xAzurePackIdentityProvider "AdminSite"
+                     "AdminSite"
                     {
-                        DependsOn = "[xAzurePackSetup]AdminSiteInitialize"
+                        DependsOn = "[]AdminSiteInitialize"
                         Target = "Windows"
                         FullyQualifiedDomainName = $Node.AzurePackAdminSiteFQDN
                         AzurePackAdminCredential = $Node.InstallerServiceAccount
@@ -1009,18 +1009,18 @@ Configuration AzurePack
                 WaitForAll "AdminSiteInitialize"
                 {
                     NodeName = $WindowsAzurePack2013AdminSiteServers[0]
-                    ResourceName = "[xAzurePackSetup]AdminSiteInitialize"
+                    ResourceName = "[]AdminSiteInitialize"
                     Credential = $Node.InstallerServiceAccount
                     RetryCount = 720
                     RetryIntervalSec = 5
                 }
 
-                xAzurePackSetup "AdminSiteInitialize"
+                 "AdminSiteInitialize"
                 {
                     DependsOn = @(
                         "[xCredSSP]Client",
                         "[xCredSSP]Server",
-                        "[xAzurePackSetup]AdminSiteInstall",
+                        "[]AdminSiteInstall",
                         "[WaitForAll]AdminSiteInitialize"
                     )
                     Role = "Admin Site"
@@ -1038,7 +1038,7 @@ Configuration AzurePack
             ($WindowsAzurePack2013AdminAuthenticationSiteServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {
-            xAzurePackSetup "AdminAuthenticationSiteInstall"
+             "AdminAuthenticationSiteInstall"
             {
                 Role = "Admin Authentication Site"
                 Action = "Install"
@@ -1055,14 +1055,14 @@ Configuration AzurePack
                 # Wait for Admin API
                 if ($WindowsAzurePack2013AdminAuthenticationSiteServers[0] -eq $WindowsAzurePack2013AdminAPIServers[0])
                 {
-                    $DependsOn = @("[xAzurePackSetup]AdminAPIInitialize")
+                    $DependsOn = @("[]AdminAPIInitialize")
                 }
                 else
                 {
                     WaitForAll "AdminAPI"
                     {
                         NodeName = $WindowsAzurePack2013AdminAPIServers[0]
-                        ResourceName = ("[xAzurePackSetup]AdminAPIInitialize")
+                        ResourceName = ("[]AdminAPIInitialize")
                         Credential = $Node.InstallerServiceAccount
                         RetryCount = 720
                         RetryIntervalSec = 5
@@ -1073,10 +1073,10 @@ Configuration AzurePack
                 $DependsOn += @(
                     "[xCredSSP]Client",
                     "[xCredSSP]Server",
-                    "[xAzurePackSetup]AdminAuthenticationSiteInstall"
+                    "[]AdminAuthenticationSiteInstall"
                 )
 
-                xAzurePackSetup "AdminAuthenticationSiteInitialize"
+                 "AdminAuthenticationSiteInitialize"
                 {
                     DependsOn = $DependsOn
                     Role = "Admin Authentication Site"
@@ -1089,9 +1089,9 @@ Configuration AzurePack
 
                 if($Node.AzurePackAdmin)
                 {
-                    xAzurePackAdmin "Admins"
+                     "Admins"
                     {
-                        DependsOn = "[xAzurePackSetup]AdminAuthenticationSiteInitialize"
+                        DependsOn = "[]AdminAuthenticationSiteInitialize"
                         Principal = $Node.AzurePackAdmin
                         AzurePackAdminCredential = $Node.InstallerServiceAccount
                         SQLServer = $WindowsAzurePack2013DatabaseServer
@@ -1101,9 +1101,9 @@ Configuration AzurePack
 
                 if($Node.AzurePackWindowsAuthSiteFQDN)
                 {
-                    xAzurePackFQDN "AdminAuthenticationSite"
+                     "AdminAuthenticationSite"
                     {
-                        DependsOn = "[xAzurePackSetup]AdminAuthenticationSiteInitialize"
+                        DependsOn = "[]AdminAuthenticationSiteInitialize"
                         Namespace = "WindowsAuthSite"
                         FullyQualifiedDomainName = $Node.AzurePackWindowsAuthSiteFQDN
                         AzurePackAdminCredential = $Node.InstallerServiceAccount
@@ -1111,9 +1111,9 @@ Configuration AzurePack
                         SQLInstance = $WindowsAzurePack2013DatabaseInstance
                     }
 
-                    xAzurePackRelyingParty "AdminAuthenticationSite"
+                     "AdminAuthenticationSite"
                     {
-                        DependsOn = "[xAzurePackSetup]AdminAuthenticationSiteInitialize"
+                        DependsOn = "[]AdminAuthenticationSiteInitialize"
                         Target = "Admin"
                         FullyQualifiedDomainName = $Node.AzurePackWindowsAuthSiteFQDN
                         AzurePackAdminCredential = $Node.InstallerServiceAccount
@@ -1127,18 +1127,18 @@ Configuration AzurePack
                 WaitForAll "AdminAuthenticationSiteInitialize"
                 {
                     NodeName = $WindowsAzurePack2013AdminAuthenticationSiteServers[0]
-                    ResourceName = "[xAzurePackSetup]AdminAuthenticationSiteInitialize"
+                    ResourceName = "[]AdminAuthenticationSiteInitialize"
                     Credential = $Node.InstallerServiceAccount
                     RetryCount = 720
                     RetryIntervalSec = 5
                 }
 
-                xAzurePackSetup "AdminAuthenticationSiteInitialize"
+                 "AdminAuthenticationSiteInitialize"
                 {
                     DependsOn = @(
                         "[xCredSSP]Client",
                         "[xCredSSP]Server",
-                        "[xAzurePackSetup]AdminAuthenticationSiteInstall",
+                        "[]AdminAuthenticationSiteInstall",
                         "[WaitForAll]AdminAuthenticationSiteInitialize"
                     )
                     Role = "Admin Authentication Site"
@@ -1156,7 +1156,7 @@ Configuration AzurePack
             ($WindowsAzurePack2013TenantSiteServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {
-            xAzurePackSetup "TenantSiteInstall"
+             "TenantSiteInstall"
             {
                 Role = "Tenant Site"
                 Action = "Install"
@@ -1173,14 +1173,14 @@ Configuration AzurePack
                 # Wait for Tenant Public API
                 if ($WindowsAzurePack2013TenantSiteServers[0] -eq $WindowsAzurePack2013TenantPublicAPIServers[0])
                 {
-                    $DependsOn = @("[xAzurePackSetup]TenantPublicAPIInitialize")
+                    $DependsOn = @("[]TenantPublicAPIInitialize")
                 }
                 else
                 {
                     WaitForAll "AdminAPI"
                     {
                         NodeName = $WindowsAzurePack2013TenantPublicAPIServers[0]
-                        ResourceName = ("[xAzurePackSetup]TenantPublicAPIInitialize")
+                        ResourceName = ("[]TenantPublicAPIInitialize")
                         Credential = $Node.InstallerServiceAccount
                         RetryCount = 720
                         RetryIntervalSec = 5
@@ -1191,10 +1191,10 @@ Configuration AzurePack
                 $DependsOn += @(
                     "[xCredSSP]Client",
                     "[xCredSSP]Server",
-                    "[xAzurePackSetup]TenantSiteInstall"
+                    "[]TenantSiteInstall"
                 )
 
-                xAzurePackSetup "TenantSiteInitialize"
+                 "TenantSiteInitialize"
                 {
                     DependsOn = $DependsOn
                     Role = "Tenant Site"
@@ -1207,9 +1207,9 @@ Configuration AzurePack
 
                 if($Node.AzurePackTenantSiteFQDN)
                 {
-                    xAzurePackFQDN "TenantSite"
+                     "TenantSite"
                     {
-                        DependsOn = "[xAzurePackSetup]TenantSiteInitialize"
+                        DependsOn = "[]TenantSiteInitialize"
                         Namespace = "TenantSite"
                         FullyQualifiedDomainName = $Node.AzurePackTenantSiteFQDN
                         AzurePackAdminCredential = $Node.InstallerServiceAccount
@@ -1217,9 +1217,9 @@ Configuration AzurePack
                         SQLInstance = $WindowsAzurePack2013DatabaseInstance
                     }
 
-                    xAzurePackIdentityProvider "TenantSite"
+                     "TenantSite"
                     {
-                        DependsOn = "[xAzurePackSetup]TenantSiteInitialize"
+                        DependsOn = "[]TenantSiteInitialize"
                         Target = "Membership"
                         FullyQualifiedDomainName = $Node.AzurePackTenantSiteFQDN
                         AzurePackAdminCredential = $Node.InstallerServiceAccount
@@ -1233,18 +1233,18 @@ Configuration AzurePack
                 WaitForAll "TenantSiteInitialize"
                 {
                     NodeName = $WindowsAzurePack2013TenantSiteServers[0]
-                    ResourceName = "[xAzurePackSetup]TenantSiteInitialize"
+                    ResourceName = "[]TenantSiteInitialize"
                     Credential = $Node.InstallerServiceAccount
                     RetryCount = 720
                     RetryIntervalSec = 5
                 }
 
-                xAzurePackSetup "TenantSiteInitialize"
+                 "TenantSiteInitialize"
                 {
                     DependsOn = @(
                         "[xCredSSP]Client",
                         "[xCredSSP]Server",
-                        "[xAzurePackSetup]TenantSiteInstall",
+                        "[]TenantSiteInstall",
                         "[WaitForAll]TenantSiteInitialize"
                     )
                     Role = "Tenant Site"
@@ -1262,7 +1262,7 @@ Configuration AzurePack
             ($WindowsAzurePack2013TenantAuthenticationSiteServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {
-            xAzurePackSetup "TenantAuthenticationSiteInstall"
+             "TenantAuthenticationSiteInstall"
             {
                 Role = "Tenant Authentication Site"
                 Action = "Install"
@@ -1279,14 +1279,14 @@ Configuration AzurePack
                 # Wait for Tenant Public API
                 if ($WindowsAzurePack2013TenantAuthenticationSiteServers[0] -eq $WindowsAzurePack2013TenantPublicAPIServers[0])
                 {
-                    $DependsOn = @("[xAzurePackSetup]TenantPublicAPIInitialize")
+                    $DependsOn = @("[]TenantPublicAPIInitialize")
                 }
                 else
                 {
                     WaitForAll "AdminAPI"
                     {
                         NodeName = $WindowsAzurePack2013TenantPublicAPIServers[0]
-                        ResourceName = ("[xAzurePackSetup]TenantPublicAPIInitialize")
+                        ResourceName = ("[]TenantPublicAPIInitialize")
                         Credential = $Node.InstallerServiceAccount
                         RetryCount = 720
                         RetryIntervalSec = 5
@@ -1297,10 +1297,10 @@ Configuration AzurePack
                 $DependsOn += @(
                     "[xCredSSP]Client",
                     "[xCredSSP]Server",
-                    "[xAzurePackSetup]TenantAuthenticationSiteInstall"
+                    "[]TenantAuthenticationSiteInstall"
                 )
 
-                xAzurePackSetup "TenantAuthenticationSiteInitialize"
+                 "TenantAuthenticationSiteInitialize"
                 {
                     DependsOn = $DependsOn
                     Role = "Tenant Authentication Site"
@@ -1313,9 +1313,9 @@ Configuration AzurePack
 
                 if($Node.AzurePackAuthSiteFQDN)
                 {
-                    xAzurePackFQDN "TenantAuthenticationSite"
+                     "TenantAuthenticationSite"
                     {
-                        DependsOn = "[xAzurePackSetup]TenantAuthenticationSiteInitialize"
+                        DependsOn = "[]TenantAuthenticationSiteInitialize"
                         Namespace = "AuthSite"
                         FullyQualifiedDomainName = $Node.AzurePackAuthSiteFQDN
                         AzurePackAdminCredential = $Node.InstallerServiceAccount
@@ -1323,9 +1323,9 @@ Configuration AzurePack
                         SQLInstance = $WindowsAzurePack2013DatabaseInstance
                     }
 
-                    xAzurePackRelyingParty "TenantAuthenticationSite"
+                     "TenantAuthenticationSite"
                     {
-                        DependsOn = "[xAzurePackSetup]TenantAuthenticationSiteInitialize"
+                        DependsOn = "[]TenantAuthenticationSiteInitialize"
                         Target = "Tenant"
                         FullyQualifiedDomainName = $Node.AzurePackAuthSiteFQDN
                         AzurePackAdminCredential = $Node.InstallerServiceAccount
@@ -1339,18 +1339,18 @@ Configuration AzurePack
                 WaitForAll "TenantAuthenticationSiteInitialize"
                 {
                     NodeName = $WindowsAzurePack2013TenantAuthenticationSiteServers[0]
-                    ResourceName = "[xAzurePackSetup]TenantAuthenticationSiteInitialize"
+                    ResourceName = "[]TenantAuthenticationSiteInitialize"
                     Credential = $Node.InstallerServiceAccount
                     RetryCount = 720
                     RetryIntervalSec = 5
                 }
 
-                xAzurePackSetup "TenantAuthenticationSiteInitialize"
+                 "TenantAuthenticationSiteInitialize"
                 {
                     DependsOn = @(
                         "[xCredSSP]Client",
                         "[xCredSSP]Server",
-                        "[xAzurePackSetup]TenantAuthenticationSiteInstall",
+                        "[]TenantAuthenticationSiteInstall",
                         "[WaitForAll]TenantAuthenticationSiteInitialize"
                     )
                     Role = "Tenant Authentication Site"
@@ -1376,12 +1376,12 @@ Configuration AzurePack
             # Set AdminAuthenticationSite
             if($Node.AzurePackWindowsAuthSiteFQDN)
             {
-                $Res = "[xAzurePackSetup]AdminAuthenticationSiteInitialize"
+                $Res = "[]AdminAuthenticationSiteInitialize"
                 $AdminAuthenticationSite = "https://" + $Node.AzurePackWindowsAuthSiteFQDN + ":"
             }
             else
             {
-                $Res = "[xAzurePackRelyingParty]AdminAuthenticationSite"
+                $Res = "[]AdminAuthenticationSite"
                 $AdminAuthenticationSite = "https://" + $WindowsAzurePack2013AdminAuthenticationSiteServers[0] + ":"
             }
             if($Node.AzurePackWindowsAuthSitePort)
@@ -1460,7 +1460,7 @@ Configuration AzurePack
                 $AzurePackMarketplacePort = 30018
             }
 
-            xAzurePackResourceProvider "marketplace"
+             "marketplace"
             {
                 DependsOn = $DependsOn
                 AuthenticationSite = $AdminAuthenticationSite
@@ -1484,7 +1484,7 @@ Configuration AzurePack
                 $AzurePackMonitoringPort = 30020
             }
 
-            xAzurePackResourceProvider "monitoring"
+             "monitoring"
             {
                 DependsOn = $DependsOn
                 AuthenticationSite = $AdminAuthenticationSite
@@ -1508,7 +1508,7 @@ Configuration AzurePack
                 $AzurePackUsageServicePort = 30022
             }
 
-            xAzurePackResourceProvider "usageservice"
+             "usageservice"
             {
                 DependsOn = $DependsOn
                 AuthenticationSite = $AdminAuthenticationSite
@@ -1545,7 +1545,7 @@ Configuration AzurePack
                 $AzurePackSQLServerExtensionPort = 30010
             }
 
-            xAzurePackResourceProvider "sqlservers"
+             "sqlservers"
             {
                 DependsOn = $DependsOn
                 AuthenticationSite = $AdminAuthenticationSite
@@ -1584,7 +1584,7 @@ Configuration AzurePack
                 $AzurePackMySQLExtensionPort = 30012
             }
 
-            xAzurePackResourceProvider "mysqlservers"
+             "mysqlservers"
             {
                 DependsOn = $DependsOn
                 AuthenticationSite = $AdminAuthenticationSite
