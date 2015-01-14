@@ -1,6 +1,6 @@
 <div id="longDesc"><span style="font-family:Calibri; font-size:medium">
 <h1 style="font-family:Calibri Light; color:#2e74b5; font-size:large">Introduction</h1>
-<p>The <strong>xAzurePack</strong> module contains resources for installation and configuration of Windows Azure Pack.
+<p>The <strong>msAzurePack</strong> module contains resources for installation and configuration of Windows Azure Pack.
 <br>
 <br>
 This module includes 8 DSC resources that automate provisioning of resources in Microsoft Azure.</p>
@@ -19,10 +19,10 @@ This module includes 8 DSC resources that automate provisioning of resources in 
     <li><strong>: </strong>for registering and configuring Azure Pack resource providers</li>
 </ul>
 
-<p><strong>All of the resources in the DSC Resource Kit are provided AS IS, and are not supported through any Microsoft standard support program or service. The &quot;&quot;x&quot; in xAzure stands for experimental</strong>, which means that these resources will be
+<p><strong>All of the resources in the DSC Resource Kit are provided AS IS, and are not supported through any Microsoft standard support program or service. The &quot;&quot;x&quot; in msAzure stands for experimental</strong>, which means that these resources will be
 <strong>fix forward</strong> and monitored by the module owner(s).</p>
 <p>Please leave comments, feature requests, and bug reports in the Q &amp; A tab for this module.</p>
-<p>If you would like to modify <strong>xAzurePack</strong> module, feel free. When modifying, please update the module name, resource friendly name, and MOF class name (instructions below). As specified in the license, you may copy or modify this resource as long
+<p>If you would like to modify <strong>msAzurePack</strong> module, feel free. When modifying, please update the module name, resource friendly name, and MOF class name (instructions below). As specified in the license, you may copy or modify this resource as long
  as they are used on the Windows Platform.</p>
 <p>For more information about Windows PowerShell Desired State Configuration, check out the blog posts on the
 <a href="http://blogs.msdn.com/b/powershell/"><span style="color:#0000ff">PowerShell Blog</span></a> (<a href="http://blogs.msdn.com/b/powershell/archive/2013/11/01/configuration-in-a-devops-world-windows-powershell-desired-state-configuration.aspx"><span style="color:#0000ff">this</span></a>
@@ -31,10 +31,10 @@ This module includes 8 DSC resources that automate provisioning of resources in 
 <span style="color:#0000ff">PowerShell Magazine</span></a>. For more information on the DSC Resource Kit, check out
 <a href="http://go.microsoft.com/fwlink/?LinkID=389546"><span style="color:#0000ff">this blog post</span></a>.</p>
 <h1 style="color:#2e74b5; font-family:Calibri Light; font-size:large">Installation</h1>
-<p>To install <strong>xAzurePack</strong> module</p>
+<p>To install <strong>msAzurePack</strong> module</p>
 <ul style="list-style-type:disc; direction:ltr">
 <li>If you are using WMF4 / PowerShell Version 4: Unzip the content under $env:ProgramFiles\WindowsPowerShell\Modules folder </li>
-<li>If you are using WMF5 Preview: From an elevated PowerShell session run ‘Install-Module xAzurePack’</li>
+<li>If you are using WMF5 Preview: From an elevated PowerShell session run ‘Install-Module msAzurePack’</li>
 </ul>
 <p>To confirm installation:</p>
 <ul style="list-style-type:disc; direction:ltr">
@@ -320,7 +320,7 @@ This module requires at least the latest version of PowerShell (v4.0, which ship
 <li>Update the following names by replacing MSFT with your company/community name and replacing the
 <strong>&quot;x&quot;</strong> with <strong>&quot;c&quot;</strong> (short for &quot;Community&quot;) or another prefix of your choice:
 <ul>
-<li><strong>Module name (ex: xAzurePack</strong> becomes <strong>cAzurePack</strong>) </li><li><strong>Resource folder (ex: </strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
+<li><strong>Module name (ex: msAzurePack</strong> becomes <strong>cAzurePack</strong>) </li><li><strong>Resource folder (ex: </strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
 </li><li><strong>Resource file name (ex: </strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
 </li><li><strong>Resource Friendly Name (ex: </strong> becomes <strong>cAzureQuickVM</strong>)
 </li><li><strong>MOF class name (ex: </strong> becomes <strong>Contoso_cAzureQuickVM</strong>)
@@ -352,7 +352,7 @@ Initial release with the following resources
 
 <h1 style="margin-bottom:0pt; font-family:Calibri Light; color:#2e74b5; font-size:large">
 Examples</h1>
-<p>An example configuration is included in the Examples folder within the module, which also uses the xSQLServer module and xCredSSP modules</p>
+<p>An example configuration is included in the Examples folder within the module, which also uses the msSQLServer module and msCredSSP modules</p>
 <p>AzurePack-SeperateSQL.ps1 installs all Azure Pack admin and tenant servers and SQL on a seperate server.</p>
 <p></p>
 <p></p>
