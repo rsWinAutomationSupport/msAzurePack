@@ -2,9 +2,9 @@
 
 Configuration AzurePack
 {
-    Import-DscResource -Module xSQLServer
-    Import-DscResource -Module xCredSSP
-    Import-DscResource -Module xAzurePack
+    Import-DscResource -Module msSQLServer
+    Import-DscResource -Module msCredSSP
+    Import-DscResource -Module msAzurePack
 
     # Set role and instance variables
     $Roles = $AllNodes.Roles | Sort-Object -Unique
@@ -51,13 +51,13 @@ Configuration AzurePack
             ($WindowsAzurePack2013TenantAuthenticationSiteServers | Where-Object {$_ -eq $Node.NodeName})
         )
         {            
-            xCredSSP "Server"
+            msCredSSP "Server"
             {
                 Ensure = "Present"
                 Role = "Server"
             }
 
-            xCredSSP "Client"
+            msCredSSP "Client"
             {
                 Ensure = "Present"
                 Role = "Client"
@@ -258,7 +258,7 @@ Configuration AzurePack
 
                 if($Features -ne "")
                 {
-                    xSqlServerSetup ($Node.NodeName + $SQLInstanceName)
+                    msSQLServerSetup ($Node.NodeName + $SQLInstanceName)
                     {
                         DependsOn = "[WindowsFeature]NET-Framework-Core"
                         SourcePath = $Node.SourcePath
@@ -270,9 +270,9 @@ Configuration AzurePack
                         SAPwd = $Node.SQLSA
                     }
 
-                    xSqlServerFirewall ($Node.NodeName + $SQLInstanceName)
+                    msSQLServerFirewall ($Node.NodeName + $SQLInstanceName)
                     {
-                        DependsOn = ("[xSqlServerSetup]" + $Node.NodeName + $SQLInstanceName)
+                        DependsOn = ("[msSQLServerSetup]" + $Node.NodeName + $SQLInstanceName)
                         SourcePath = $Node.SourcePath
                         InstanceName = $SQLInstanceName
                         Features = $Features
@@ -284,7 +284,7 @@ Configuration AzurePack
         # Install SQL Management Tools
         if($SQLServer2012ManagementTools | Where-Object {$_ -eq $Node.NodeName})
         {
-            xSqlServerSetup "SQLMT"
+            msSQLServerSetup "SQLMT"
             {
                 DependsOn = "[WindowsFeature]NET-Framework-Core"
                 SourcePath = $Node.SourcePath
@@ -421,14 +421,14 @@ Configuration AzurePack
                 # Wait for Azure Pack Database Server
                 if ($WindowsAzurePack2013AdminAPIServers[0] -eq $WindowsAzurePack2013DatabaseServer)
                 {
-                    $DependsOn = @(("[xSqlServerFirewall]" + $WindowsAzurePack2013DatabaseServer + $WindowsAzurePack2013DatabaseInstance))
+                    $DependsOn = @(("[msSQLServerFirewall]" + $WindowsAzurePack2013DatabaseServer + $WindowsAzurePack2013DatabaseInstance))
                 }
                 else
                 {
                     WaitForAll "WAPDB"
                     {
                         NodeName = $WindowsAzurePack2013DatabaseServer
-                        ResourceName = ("[xSqlServerFirewall]" + $WindowsAzurePack2013DatabaseServer + $WindowsAzurePack2013DatabaseInstance)
+                        ResourceName = ("[msSQLServerFirewall]" + $WindowsAzurePack2013DatabaseServer + $WindowsAzurePack2013DatabaseInstance)
                         Credential = $Node.InstallerServiceAccount
                         RetryCount = 720
                         RetryIntervalSec = 5
@@ -437,8 +437,8 @@ Configuration AzurePack
                 }
 
                 $DependsOn += @(
-                    "[xCredSSP]Client",
-                    "[xCredSSP]Server",
+                    "[msCredSSP]Client",
+                    "[msCredSSP]Server",
                     "[]AdminAPIInstall"
                 )
 
@@ -523,8 +523,8 @@ Configuration AzurePack
                  "AdminAPIInitialize"
                 {
                     DependsOn = @(
-                        "[xCredSSP]Client",
-                        "[xCredSSP]Server",
+                        "[msCredSSP]Client",
+                        "[msCredSSP]Server",
                         "[]AdminAPIInstall",
                         "[WaitForAll]AdminAPIInitialize"
                     )
@@ -576,8 +576,8 @@ Configuration AzurePack
                 }
 
                 $DependsOn += @(
-                    "[xCredSSP]Client",
-                    "[xCredSSP]Server",
+                    "[msCredSSP]Client",
+                    "[msCredSSP]Server",
                     "[]TenantAPIInstall"
                 )
 
@@ -640,8 +640,8 @@ Configuration AzurePack
                  "TenantAPIInitialize"
                 {
                     DependsOn = @(
-                        "[xCredSSP]Client",
-                        "[xCredSSP]Server",
+                        "[msCredSSP]Client",
+                        "[msCredSSP]Server",
                         "[]TenantAPIInstall",
                         "[WaitForAll]TenantAPIInitialize"
                     )
@@ -693,8 +693,8 @@ Configuration AzurePack
                 }
 
                 $DependsOn += @(
-                    "[xCredSSP]Client",
-                    "[xCredSSP]Server",
+                    "[msCredSSP]Client",
+                    "[msCredSSP]Server",
                     "[]TenantPublicAPIInstall"
                 )
 
@@ -746,8 +746,8 @@ Configuration AzurePack
                  "TenantPublicAPIInitialize"
                 {
                     DependsOn = @(
-                        "[xCredSSP]Client",
-                        "[xCredSSP]Server",
+                        "[msCredSSP]Client",
+                        "[msCredSSP]Server",
                         "[]TenantPublicAPIInstall",
                         "[WaitForAll]TenantPublicAPIInitialize"
                     )
@@ -799,8 +799,8 @@ Configuration AzurePack
                 }
 
                 $DependsOn += @(
-                    "[xCredSSP]Client",
-                    "[xCredSSP]Server",
+                    "[msCredSSP]Client",
+                    "[msCredSSP]Server",
                     "[]SQLServerExtensionInstall"
                 )
 
@@ -829,8 +829,8 @@ Configuration AzurePack
                  "SQLServerExtensionInitialize"
                 {
                     DependsOn = @(
-                        "[xCredSSP]Client",
-                        "[xCredSSP]Server",
+                        "[msCredSSP]Client",
+                        "[msCredSSP]Server",
                         "[]SQLServerExtensionInstall",
                         "[WaitForAll]SQLServerExtensionInitialize"
                     )
@@ -882,8 +882,8 @@ Configuration AzurePack
                 }
 
                 $DependsOn += @(
-                    "[xCredSSP]Client",
-                    "[xCredSSP]Server",
+                    "[msCredSSP]Client",
+                    "[msCredSSP]Server",
                     "[]MySQLExtensionInstall"
                 )
 
@@ -912,8 +912,8 @@ Configuration AzurePack
                  "MySQLExtensionInitialize"
                 {
                     DependsOn = @(
-                        "[xCredSSP]Client",
-                        "[xCredSSP]Server",
+                        "[msCredSSP]Client",
+                        "[msCredSSP]Server",
                         "[]MySQLExtensionInstall",
                         "[WaitForAll]MySQLExtensionInitialize"
                     )
@@ -965,8 +965,8 @@ Configuration AzurePack
                 }
 
                 $DependsOn += @(
-                    "[xCredSSP]Client",
-                    "[xCredSSP]Server",
+                    "[msCredSSP]Client",
+                    "[msCredSSP]Server",
                     "[]AdminSiteInstall"
                 )
 
@@ -1018,8 +1018,8 @@ Configuration AzurePack
                  "AdminSiteInitialize"
                 {
                     DependsOn = @(
-                        "[xCredSSP]Client",
-                        "[xCredSSP]Server",
+                        "[msCredSSP]Client",
+                        "[msCredSSP]Server",
                         "[]AdminSiteInstall",
                         "[WaitForAll]AdminSiteInitialize"
                     )
@@ -1071,8 +1071,8 @@ Configuration AzurePack
                 }
 
                 $DependsOn += @(
-                    "[xCredSSP]Client",
-                    "[xCredSSP]Server",
+                    "[msCredSSP]Client",
+                    "[msCredSSP]Server",
                     "[]AdminAuthenticationSiteInstall"
                 )
 
@@ -1136,8 +1136,8 @@ Configuration AzurePack
                  "AdminAuthenticationSiteInitialize"
                 {
                     DependsOn = @(
-                        "[xCredSSP]Client",
-                        "[xCredSSP]Server",
+                        "[msCredSSP]Client",
+                        "[msCredSSP]Server",
                         "[]AdminAuthenticationSiteInstall",
                         "[WaitForAll]AdminAuthenticationSiteInitialize"
                     )
@@ -1189,8 +1189,8 @@ Configuration AzurePack
                 }
 
                 $DependsOn += @(
-                    "[xCredSSP]Client",
-                    "[xCredSSP]Server",
+                    "[msCredSSP]Client",
+                    "[msCredSSP]Server",
                     "[]TenantSiteInstall"
                 )
 
@@ -1242,8 +1242,8 @@ Configuration AzurePack
                  "TenantSiteInitialize"
                 {
                     DependsOn = @(
-                        "[xCredSSP]Client",
-                        "[xCredSSP]Server",
+                        "[msCredSSP]Client",
+                        "[msCredSSP]Server",
                         "[]TenantSiteInstall",
                         "[WaitForAll]TenantSiteInitialize"
                     )
@@ -1295,8 +1295,8 @@ Configuration AzurePack
                 }
 
                 $DependsOn += @(
-                    "[xCredSSP]Client",
-                    "[xCredSSP]Server",
+                    "[msCredSSP]Client",
+                    "[msCredSSP]Server",
                     "[]TenantAuthenticationSiteInstall"
                 )
 
@@ -1348,8 +1348,8 @@ Configuration AzurePack
                  "TenantAuthenticationSiteInitialize"
                 {
                     DependsOn = @(
-                        "[xCredSSP]Client",
-                        "[xCredSSP]Server",
+                        "[msCredSSP]Client",
+                        "[msCredSSP]Server",
                         "[]TenantAuthenticationSiteInstall",
                         "[WaitForAll]TenantAuthenticationSiteInitialize"
                     )
